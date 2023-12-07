@@ -53,6 +53,33 @@ namespace AuctionServiceTests
             CollectionAssert.AreEquivalent(auctions, resultCollection);
         }
 
+        [Test]
+        public void GetAuctionsByCategory_ValidCategory_ReturnsOkResult()
+        {
+            // Arrange
+            var categoryId = 1;
+            var auction1 = new AuctionDTO { AuctionId = 1, CatalogId = categoryId };
+            var auction2 = new AuctionDTO { AuctionId = 2, CatalogId = categoryId };
+            var auctionsInCategory = new List<AuctionDTO> { auction1, auction2 };
+
+            _auctionRepositoryMock.Setup(repo => repo.GetAllAuctions()).Returns(auctionsInCategory);
+
+            // Act
+            var result = _auctionController.GetAuctionsByCategory(categoryId) as OkObjectResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+
+            var resultCollection = result.Value as IEnumerable<AuctionDTO>;
+            Assert.NotNull(resultCollection);
+
+            CollectionAssert.AreEquivalent(auctionsInCategory, resultCollection);
+
+            // Optionally, you can verify that the filtering by category was applied correctly.
+            _auctionRepositoryMock.Verify(repo => repo.GetAllAuctions(), Times.Once);
+        }
+
 
         [Test]
         public void GetAuction_ValidId_ReturnsOkResult()
