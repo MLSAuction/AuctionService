@@ -20,7 +20,7 @@ namespace AuctionService.Controllers
             _auctionService = auctionRepository;
         }
 
-        [HttpGet]
+        [HttpGet("getAll")]
         public IActionResult GetAllAuctions()
         {
             var auctions = _auctionService.GetAllAuctions();
