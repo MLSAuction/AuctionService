@@ -76,17 +76,17 @@ namespace AuctionService.Controllers
 
         }
 
-        [HttpPut("{id}")]
-        public IActionResult EditAuction(int id, [FromBody] AuctionDTO auction)
+        [HttpPut]
+        public IActionResult EditAuction([FromBody] AuctionDTO auction)
         {
             if (auction == null)
             {
                 return BadRequest("Invalid auction data");
             }
 
-            if (id != auction.AuctionId)
+            if (_auctionService.GetAuction((int)auction.AuctionId) == null)
             {
-                return BadRequest("Auction ID in the request body does not match the route parameter");
+                return BadRequest("Auction ID does not exist in database");
             }
 
             _auctionService.UpdateAuction(auction);

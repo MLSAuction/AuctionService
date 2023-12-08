@@ -107,14 +107,13 @@ namespace AuctionServiceTests
         public void EditAuction_ValidData_ReturnsOkResult()
         {
             // Arrange
-            var auctionId = 1;
-            var editedAuction = new AuctionDTO { AuctionId = auctionId };
+            var editedAuction = new AuctionDTO { AuctionId = 1 };
 
             //Opsætning af mock IAuctionRepository til at returner auction, når GetAuction bliver kaldt med det specifikke ID.
-            _auctionRepositoryMock.Setup(repo => repo.GetAuction(auctionId)).Returns(new AuctionDTO { AuctionId = auctionId });
+            _auctionRepositoryMock.Setup(repo => repo.GetAuction(editedAuction.AuctionId)).Returns(new AuctionDTO { AuctionId = editedAuction.AuctionId });
 
             // Act
-            var result = _auctionController.EditAuction(auctionId, editedAuction) as OkObjectResult;
+            var result = _auctionController.EditAuction(editedAuction) as OkObjectResult;
 
             // Assert
             Assert.NotNull(result);
