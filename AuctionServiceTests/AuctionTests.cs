@@ -8,7 +8,7 @@ using AuctionService.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace AuctionServiceTests
+namespace AuctionTests
 {
     [TestFixture]
     public class AuctionControllerTests
