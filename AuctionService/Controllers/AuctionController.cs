@@ -62,11 +62,7 @@ namespace AuctionService.Controllers
                 return BadRequest("Invalid auction data");
             }
 
-            if (auction.AuctionId == null)
-            {
-                //Check if there is ID 
-                auction.AuctionId = GenerateUniqueId();
-            }
+            auction.AuctionId = GenerateUniqueId();
 
             if (_auctionService.GetAuction((int)auction.AuctionId) != null)
             {
