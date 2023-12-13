@@ -2,6 +2,7 @@
 using AuctionService.Repositories;
 using AuctionService.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AuctionService.Controllers
 {
@@ -20,6 +21,7 @@ namespace AuctionService.Controllers
             _auctionService = auctionRepository;
         }
 
+        [Authorize]
         [HttpGet("getAll")]
         public IActionResult GetAllAuctions()
         {
@@ -33,6 +35,7 @@ namespace AuctionService.Controllers
             return Ok(auctions);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetAuction(int id)
         {
@@ -49,6 +52,7 @@ namespace AuctionService.Controllers
             return Ok(auction);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult AddAuction([FromBody] AuctionDTO auction)
         {
@@ -76,6 +80,7 @@ namespace AuctionService.Controllers
 
         }
 
+        [Authorize]
         [HttpPut]
         public IActionResult EditAuction([FromBody] AuctionDTO auction)
         {
@@ -94,6 +99,7 @@ namespace AuctionService.Controllers
             return Ok("Auction updated successfully");
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult DeleteAuction(int id)
         {
@@ -109,6 +115,7 @@ namespace AuctionService.Controllers
             return Ok("Auction deleted successfully");
         }
 
+        [Authorize]
         [HttpGet("category/{categoryId}")]
         public IActionResult GetAuctionsByCategory(int categoryId)
         {

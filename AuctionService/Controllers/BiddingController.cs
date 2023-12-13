@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AuctionService.Repositories;
 using AuctionService.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AuctionService.Controllers
 {
@@ -19,6 +20,7 @@ namespace AuctionService.Controllers
             _biddingService = biddingRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetBid(int id)
         {
@@ -35,6 +37,7 @@ namespace AuctionService.Controllers
             return Ok(bidding);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult AddBid([FromBody] BiddingDTO bidding)
         {
@@ -43,10 +46,7 @@ namespace AuctionService.Controllers
                 return BadRequest("Invalid bidding data");
             }
 
-            if (bidding.BidId == null)
-            {
-                bidding.BidId = GenerateUniqueId();
-            }
+            bidding.BidId = GenerateUniqueId();
 
             if (_biddingService.GetBid((int)bidding.BidId) != null)
             {
@@ -60,6 +60,7 @@ namespace AuctionService.Controllers
 
         }
 
+        [AllowAnonymous]
         [HttpGet("auction/highestBid/{auctionId}")] //Highest bid for auctionId
         public IActionResult GetHighestBidForAuction(int auctionId)
         {
@@ -75,6 +76,7 @@ namespace AuctionService.Controllers
             return Ok(highestBid);
         }
 
+        [AllowAnonymous]
         [HttpGet("auction/{auctionId}")]
         public IActionResult GetAllBidsForAuction(int auctionId)
         {

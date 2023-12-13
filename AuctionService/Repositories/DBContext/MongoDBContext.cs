@@ -15,7 +15,7 @@ namespace AuctionService.Repositories.DBContext
         {
             _configuration = configuration;
             _client = new MongoClient(secret.Data.Data["ConnectionString"].ToString());
-            _database = _client.GetDatabase(_configuration["DatabaseName"]);
+            _database = _client.GetDatabase(secret.Data.Data["DatabaseName"].ToString());
         }
 
         public IMongoCollection<T> GetCollection<T>(string collectionName)
