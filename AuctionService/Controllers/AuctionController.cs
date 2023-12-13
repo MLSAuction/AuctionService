@@ -20,7 +20,10 @@ namespace AuctionService.Controllers
             _configuration = configuration;
             _auctionService = auctionRepository;
         }
-
+        /// <summary>
+        /// Get all auctions
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("getAll")]
         public IActionResult GetAllAuctions()
@@ -35,6 +38,11 @@ namespace AuctionService.Controllers
             return Ok(auctions);
         }
 
+        /// <summary>
+        /// Get auction by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetAuction(int id)
@@ -52,6 +60,11 @@ namespace AuctionService.Controllers
             return Ok(auction);
         }
 
+        /// <summary>
+        /// Add an auction
+        /// </summary>
+        /// <param name="auction"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public IActionResult AddAuction([FromBody] AuctionDTO auction)
@@ -76,6 +89,11 @@ namespace AuctionService.Controllers
 
         }
 
+        /// <summary>
+        /// Edit auction
+        /// </summary>
+        /// <param name="auction"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut]
         public IActionResult EditAuction([FromBody] AuctionDTO auction)
@@ -95,6 +113,11 @@ namespace AuctionService.Controllers
             return Ok("Auction updated successfully");
         }
 
+        /// <summary>
+        /// Delete an auction by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpDelete("{id}")]
         public IActionResult DeleteAuction(int id)
@@ -111,6 +134,11 @@ namespace AuctionService.Controllers
             return Ok("Auction deleted successfully");
         }
 
+        /// <summary>
+        /// Get auctions by category
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("category/{categoryId}")]
         public IActionResult GetAuctionsByCategory(int categoryId)

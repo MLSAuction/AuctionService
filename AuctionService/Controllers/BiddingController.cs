@@ -20,6 +20,11 @@ namespace AuctionService.Controllers
             _biddingService = biddingRepository;
         }
 
+        /// <summary>
+        /// Get bid by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetBid(int id)
@@ -37,6 +42,11 @@ namespace AuctionService.Controllers
             return Ok(bidding);
         }
 
+        /// <summary>
+        /// Add bid to auction
+        /// </summary>
+        /// <param name="bidding"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public IActionResult AddBid([FromBody] BiddingDTO bidding)
@@ -60,6 +70,11 @@ namespace AuctionService.Controllers
 
         }
 
+        /// <summary>
+        /// Get highest-bid by auctionId
+        /// </summary>
+        /// <param name="auctionId"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("auction/highestBid/{auctionId}")] //Highest bid for auctionId
         public IActionResult GetHighestBidForAuction(int auctionId)
@@ -76,6 +91,11 @@ namespace AuctionService.Controllers
             return Ok(highestBid);
         }
 
+        /// <summary>
+        /// Get all bids for specific auction
+        /// </summary>
+        /// <param name="auctionId"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("auction/{auctionId}")]
         public IActionResult GetAllBidsForAuction(int auctionId)
