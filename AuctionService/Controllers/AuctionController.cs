@@ -24,7 +24,7 @@ namespace AuctionService.Controllers
         /// Get all auctions
         /// </summary>
         /// <returns></returns>
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet("getAll")]
         public IActionResult GetAllAuctions()
         {
