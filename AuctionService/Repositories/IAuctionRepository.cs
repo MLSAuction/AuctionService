@@ -9,7 +9,7 @@ namespace AuctionService.Repositories
         void AddAuction(AuctionDTO auction);
         void UpdateAuction(AuctionDTO auction);
         void DeleteAuction(Guid id);
-        IEnumerable<AuctionDTO> GetAuctionsByCategory(Guid categoryId); // New method for retrieving auctions by category
+        IEnumerable<AuctionDTO> GetAuctionsByCategory(int categoryId); // New method for retrieving auctions by category
 
     }
 }

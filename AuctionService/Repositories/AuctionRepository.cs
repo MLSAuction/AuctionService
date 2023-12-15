@@ -20,7 +20,6 @@ namespace AuctionService.Repositories
 
         }
 
-
         public IEnumerable<AuctionDTO> GetAllAuctions()
         {
             return _db.Find(_ => true).ToList();
@@ -52,9 +51,9 @@ namespace AuctionService.Repositories
             _db.DeleteOne(filter);
         }
 
-        public IEnumerable<AuctionDTO> GetAuctionsByCategory(Guid categoryId)
+        public IEnumerable<AuctionDTO> GetAuctionsByCategory(int categoryId)
         {
-            return _db.Find(a => a.CatalogId == categoryId).ToList();
+            return _db.Find(a => a.CategoryId == categoryId).ToList();
         }
 
 

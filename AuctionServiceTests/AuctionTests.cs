@@ -29,8 +29,8 @@ namespace AuctionTests
         }
 
         [Test]
-        [TestCase(1, 22, 1, 500, 2, 23, 1, 1000)]
-        public void GetAllActionsReturnsAllAuctions(int auctionId, int userId, int catalogId, int minimumPrice, int auctionId2, int userId2, int catalogId2, int minimumPrice2)
+        [TestCase("39e30ada-6745-4322-913f-b2e8496a8c67", "77aa0f52-039e-4762-bb7c-0e9bd942b92b", "ea968fbc-6de1-48b3-a3ee-b151920c4dbb", 500, "40e30ada-6745-4322-913f-b2e8496a8c67", "77aa0f52-039e-4762-bb7c-0e9bd942b92b", "ea968fbc-6de1-48b3-a3ee-b151920c4ccc", 1000)]
+        public void GetAllActionsReturnsAllAuctions(Guid auctionId, Guid userId, Guid catalogId, int minimumPrice, Guid auctionId2, Guid userId2, Guid catalogId2, int minimumPrice2)
         {
             //arrange
             AuctionDTO auction1 = new AuctionDTO { AuctionId = auctionId, UserId = userId, CatalogId = catalogId, MinimumPrice = minimumPrice };
@@ -53,16 +53,17 @@ namespace AuctionTests
             CollectionAssert.AreEquivalent(auctions, resultCollection);
         }
 
+
         [Test]
         public void GetAuctionsByCategory_ValidCategory_ReturnsOkResult()
         {
             // Arrange
             var categoryId = 1;
-            var auction1 = new AuctionDTO { AuctionId = 1, CatalogId = categoryId };
-            var auction2 = new AuctionDTO { AuctionId = 2, CatalogId = categoryId };
+            var auction1 = new AuctionDTO { AuctionId = Guid.Parse("39e30ada-6745-4322-913f-b2e8496a8c67"), CategoryId = categoryId };
+            var auction2 = new AuctionDTO { AuctionId = Guid.Parse("40e30ada-6745-4322-913f-b2e8496a8c68"), CategoryId = categoryId };
             var auctionsInCategory = new List<AuctionDTO> { auction1, auction2 };
 
-            _auctionRepositoryMock.Setup(repo => repo.GetAllAuctions()).Returns(auctionsInCategory);
+            _auctionRepositoryMock.Setup(repo => repo.GetAuctionsByCategory(categoryId)).Returns(auctionsInCategory);
 
             // Act
             var result = _auctionController.GetAuctionsByCategory(categoryId) as OkObjectResult;
@@ -77,7 +78,7 @@ namespace AuctionTests
             CollectionAssert.AreEquivalent(auctionsInCategory, resultCollection);
 
             // Optionally, you can verify that the filtering by category was applied correctly.
-            _auctionRepositoryMock.Verify(repo => repo.GetAllAuctions(), Times.Once);
+            _auctionRepositoryMock.Verify(repo => repo.GetAuctionsByCategory(categoryId), Times.Once);
         }
 
 
@@ -85,8 +86,8 @@ namespace AuctionTests
         public void GetAuction_ValidId_ReturnsOkResult()
         {
             // Arrange -> Definer en bruger med ID 1 og navn "John Doe".
-            var auctionId = 1;
-            var auctionDto = new AuctionDTO { AuctionId = auctionId };
+            Guid auctionId = Guid.Parse("39e30ada-6745-4322-913f-b2e8496a8c67");
+            var auctionDto = new AuctionDTO { AuctionId = Guid.Parse("39e30ada-6745-4322-913f-b2e8496a8c67") };
 
             // Opsæt mock IAuctionRepository til at returnere brugeren, når GetAuction kaldes med det specificerede ID.
             //For at teste, at denne test virker - Kan man prøve at få den til at fejle, ved at tilføje +1 efter 'auctionId'
@@ -107,7 +108,7 @@ namespace AuctionTests
         public void EditAuction_ValidData_ReturnsOkResult()
         {
             // Arrange
-            var editedAuction = new AuctionDTO { AuctionId = 1 };
+            var editedAuction = new AuctionDTO { AuctionId = Guid.Parse("39e30ada-6745-4322-913f-b2e8496a8c67") };
 
             //Opsætning af mock IAuctionRepository til at returner auction, når GetAuction bliver kaldt med det specifikke ID.
             _auctionRepositoryMock.Setup(repo => repo.GetAuction(editedAuction.AuctionId)).Returns(new AuctionDTO { AuctionId = editedAuction.AuctionId });
@@ -124,13 +125,14 @@ namespace AuctionTests
             _auctionRepositoryMock.Verify(repo => repo.UpdateAuction(editedAuction), Times.Once);
         }
 
+
         [Test]
         public void DeleteAuction_ValidId_ReturnsOkResult()
         {
             // Arrange
-            var auctionId = 1;
+            Guid auctionId = Guid.Parse("39e30ada-6745-4322-913f-b2e8496a8c67");
 
-            _auctionRepositoryMock.Setup(repo => repo.GetAuction(auctionId)).Returns(new AuctionDTO { AuctionId = auctionId });
+            _auctionRepositoryMock.Setup(repo => repo.GetAuction(auctionId)).Returns(new AuctionDTO { AuctionId = Guid.Parse("39e30ada-6745-4322-913f-b2e8496a8c67") });
 
             // Act
             var result = _auctionController.DeleteAuction(auctionId) as OkObjectResult;
@@ -143,8 +145,6 @@ namespace AuctionTests
             // Verificerer at DeleteAuction-metoden på IAuctionRepository blev kaldt med det rigtige ID.
             _auctionRepositoryMock.Verify(repo => repo.DeleteAuction(auctionId), Times.Once);
         }
-
-
 
 
     }

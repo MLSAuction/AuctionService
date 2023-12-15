@@ -133,7 +133,7 @@ namespace AuctionService.Controllers
 
             return Ok("Auction deleted successfully");
         }
-
+        
         /// <summary>
         /// Get auctions by category
         /// </summary>
@@ -141,9 +141,9 @@ namespace AuctionService.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet("category/{categoryId}")]
-        public IActionResult GetAuctionsByCategory(Guid categoryId)
+        public IActionResult GetAuctionsByCategory(int categoryId)
         {
-            var auctionsInCategory = _auctionService.GetAllAuctions().Where(a => a.CatalogId == categoryId).ToList();
+            var auctionsInCategory = _auctionService.GetAuctionsByCategory(categoryId);
 
             if (auctionsInCategory == null || !auctionsInCategory.Any())
             {
@@ -152,6 +152,7 @@ namespace AuctionService.Controllers
 
             return Ok(auctionsInCategory);
         }
+       
 
         private Guid GenerateUniqueId()
         {

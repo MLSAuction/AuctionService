@@ -30,8 +30,8 @@ namespace BiddingTests
         public void GetBid_ValidId_ReturnsOkResult()
         {
             // Arrange
-            var bidId = 1;
-            var biddingDto = new BiddingDTO { BidId = bidId, UserId = 1, AuctionId = 1, Price = 100, TimePlaced = DateTime.Now };
+            Guid bidId = Guid.Parse("fccb9563-83a4-4e55-845a-2d65cd27b314");
+            var biddingDto = new BiddingDTO { BidId = bidId, UserId = Guid.Parse("ed0d17b8-dbc3-4080-8f4a-abe63b9679b9"), AuctionId = Guid.Parse("39e30ada-6745-4322-913f-b2e8496a8c67"), Price = 100, TimePlaced = DateTime.Now };
 
             _biddingRepositoryMock.Setup(repo => repo.GetBid(bidId)).Returns(biddingDto);
 
