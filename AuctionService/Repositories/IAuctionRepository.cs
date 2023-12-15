@@ -5,11 +5,11 @@ namespace AuctionService.Repositories
     public interface IAuctionRepository
     {
         IEnumerable<AuctionDTO> GetAllAuctions();
-        AuctionDTO GetAuction(int id);
+        AuctionDTO GetAuction(Guid id);
         void AddAuction(AuctionDTO auction);
         void UpdateAuction(AuctionDTO auction);
-        void DeleteAuction(int id);
-        IEnumerable<AuctionDTO> GetAuctionsByCategory(int categoryId); // New method for retrieving auctions by category
+        void DeleteAuction(Guid id);
+        IEnumerable<AuctionDTO> GetAuctionsByCategory(Guid categoryId); // New method for retrieving auctions by category
 
     }
 }

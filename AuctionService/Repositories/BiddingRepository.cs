@@ -25,7 +25,7 @@ namespace AuctionService.Repositories
             _secret = secret;
         }
 
-        public BiddingDTO GetBid(int id)
+        public BiddingDTO GetBid(Guid id)
         {
             return _db.Find(u => u.BidId == id)
                       .FirstOrDefault();
@@ -52,7 +52,7 @@ namespace AuctionService.Repositories
                                  body: body);
         }
 
-        public BiddingDTO GetHighestBidForAuction(int auctionId)
+        public BiddingDTO GetHighestBidForAuction(Guid auctionId)
         {
             return _db.Find(b => b.AuctionId == auctionId)
                       .SortByDescending(b => b.Price)
@@ -60,7 +60,7 @@ namespace AuctionService.Repositories
                       .FirstOrDefault();
         }
 
-        public IEnumerable<BiddingDTO> GetAllBidsForAuction(int auctionId)
+        public IEnumerable<BiddingDTO> GetAllBidsForAuction(Guid auctionId)
         {
             return _db.Find(b => b.AuctionId == auctionId)
                       .SortByDescending(b => b.Price)

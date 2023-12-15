@@ -4,9 +4,9 @@ namespace AuctionService.Repositories
 {
     public interface IBiddingRepository
     {
-        BiddingDTO GetBid(int id);
+        BiddingDTO GetBid(Guid id);
         void AddBid(BiddingDTO bidding);
-        BiddingDTO GetHighestBidForAuction(int auctionId);
-        IEnumerable<BiddingDTO> GetAllBidsForAuction(int auctionId);
+        BiddingDTO GetHighestBidForAuction(Guid auctionId);
+        IEnumerable<BiddingDTO> GetAllBidsForAuction(Guid auctionId);
     }
 }

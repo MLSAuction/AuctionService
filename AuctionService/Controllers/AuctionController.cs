@@ -45,7 +45,7 @@ namespace AuctionService.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public IActionResult GetAuction(int id)
+        public IActionResult GetAuction(Guid id)
         {
 
             AuctionDTO auction = _auctionService.GetAuction(id);
@@ -77,7 +77,7 @@ namespace AuctionService.Controllers
 
             auction.AuctionId = GenerateUniqueId();
 
-            if (_auctionService.GetAuction((int)auction.AuctionId) != null)
+            if (_auctionService.GetAuction((Guid)auction.AuctionId) != null)
             {
                 // Handle the case where the ID already exists (e.g., generate a new ID, so it doesnt match the already exist)
                 auction.AuctionId = GenerateUniqueId();
@@ -103,7 +103,7 @@ namespace AuctionService.Controllers
                 return BadRequest("Invalid auction data");
             }
 
-            if (_auctionService.GetAuction((int)auction.AuctionId) == null)
+            if (_auctionService.GetAuction((Guid)auction.AuctionId) == null)
             {
                 return BadRequest("Auction ID does not exist in database");
             }
@@ -120,7 +120,7 @@ namespace AuctionService.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpDelete("{id}")]
-        public IActionResult DeleteAuction(int id)
+        public IActionResult DeleteAuction(Guid id)
         {
             var auction = _auctionService.GetAuction(id);
 
@@ -141,7 +141,7 @@ namespace AuctionService.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet("category/{categoryId}")]
-        public IActionResult GetAuctionsByCategory(int categoryId)
+        public IActionResult GetAuctionsByCategory(Guid categoryId)
         {
             var auctionsInCategory = _auctionService.GetAllAuctions().Where(a => a.CatalogId == categoryId).ToList();
 
@@ -153,9 +153,9 @@ namespace AuctionService.Controllers
             return Ok(auctionsInCategory);
         }
 
-        private int GenerateUniqueId()
+        private Guid GenerateUniqueId()
         {
-            return Math.Abs(Guid.NewGuid().GetHashCode());
+            return Guid.NewGuid();
         }
     }
 }

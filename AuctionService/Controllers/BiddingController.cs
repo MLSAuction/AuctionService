@@ -27,7 +27,7 @@ namespace AuctionService.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public IActionResult GetBid(int id)
+        public IActionResult GetBid(Guid id)
         {
 
             BiddingDTO bidding = _biddingService.GetBid(id);
@@ -58,7 +58,7 @@ namespace AuctionService.Controllers
 
             bidding.BidId = GenerateUniqueId();
 
-            if (_biddingService.GetBid((int)bidding.BidId) != null)
+            if (_biddingService.GetBid((Guid)bidding.BidId) != null)
             {
                 // Handle the case where the ID already exists (e.g., generate a new ID, so it doesnt match the already exist)
                 bidding.BidId = GenerateUniqueId();
@@ -77,7 +77,7 @@ namespace AuctionService.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("auction/highestBid/{auctionId}")] //Highest bid for auctionId
-        public IActionResult GetHighestBidForAuction(int auctionId)
+        public IActionResult GetHighestBidForAuction(Guid auctionId)
         {
             BiddingDTO highestBid = _biddingService.GetHighestBidForAuction(auctionId);
 
@@ -98,13 +98,13 @@ namespace AuctionService.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("auction/{auctionId}")]
-        public IActionResult GetAllBidsForAuction(int auctionId)
+        public IActionResult GetAllBidsForAuction(Guid auctionId)
         {
             IEnumerable<BiddingDTO> bids = _biddingService.GetAllBidsForAuction(auctionId);
 
             if (!bids.Any())
-            { 
-                return NotFound(); 
+            {
+                return NotFound();
             }
 
             _logger.LogInformation($"Retrieved {bids.Count()} bids for Auction Id: {auctionId}");
@@ -112,9 +112,9 @@ namespace AuctionService.Controllers
             return Ok(bids);
         }
 
-        private int GenerateUniqueId()
+        private Guid GenerateUniqueId()
         {
-            return Math.Abs(Guid.NewGuid().GetHashCode());
+            return Guid.NewGuid();
         }
     }
 }

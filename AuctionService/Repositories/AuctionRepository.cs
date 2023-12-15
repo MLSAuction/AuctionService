@@ -26,7 +26,7 @@ namespace AuctionService.Repositories
             return _db.Find(_ => true).ToList();
         }
 
-        public AuctionDTO GetAuction(int id)
+        public AuctionDTO GetAuction(Guid id)
         {
             // Use MongoDB's LINQ methods to query for a auction by ID
             return _db.Find(u => u.AuctionId == id).FirstOrDefault();
@@ -45,14 +45,14 @@ namespace AuctionService.Repositories
             _db.ReplaceOne(filter, auction);
         }
 
-        public void DeleteAuction(int id)
+        public void DeleteAuction(Guid id)
         {
             // Delete a auction document by ID
             var filter = Builders<AuctionDTO>.Filter.Eq(u => u.AuctionId, id);
             _db.DeleteOne(filter);
         }
 
-        public IEnumerable<AuctionDTO> GetAuctionsByCategory(int categoryId)
+        public IEnumerable<AuctionDTO> GetAuctionsByCategory(Guid categoryId)
         {
             return _db.Find(a => a.CatalogId == categoryId).ToList();
         }
