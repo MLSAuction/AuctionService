@@ -15,14 +15,12 @@ namespace AuctionService.Repositories
         private readonly ILogger<BiddingRepository> _logger;
         private readonly IConfiguration _configuration;
         private readonly IMongoCollection<BiddingDTO> _db;
-        private readonly Secret<SecretData> _secret;
 
-        public BiddingRepository(ILogger<BiddingRepository> logger, IConfiguration configuration, MongoDBContext db, Secret<SecretData> secret)
+        public BiddingRepository(ILogger<BiddingRepository> logger, IConfiguration configuration, MongoDBContext db)
         {
             _logger = logger;
             _configuration = configuration;
             _db = db.GetCollection<BiddingDTO>("Bids");
-            _secret = secret;
         }
 
         public BiddingDTO GetBid(Guid id)
@@ -33,7 +31,7 @@ namespace AuctionService.Repositories
 
         public void AddBid(BiddingDTO bid)
         {
-            var factory = new ConnectionFactory { HostName = _secret.Data.Data["MqHost"].ToString() };
+            var factory = new ConnectionFactory { HostName = Environment.GetEnvironmentVariable("MqHost") };
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
 
