@@ -7,12 +7,13 @@
 	<Company>MLS</Company>
 	<Authors>Magnus, Leo, Mads, Lucas</Authors>
 	<Copyright>MIT</Copyright>
-	<AssemblyVersion>1.0.1</AssemblyVersion>
-	<FileVersion>1.0.1</FileVersion>
-	<InformationalVersion>1.0.1</InformationalVersion>
+	<AssemblyVersion>1.0.2</AssemblyVersion>
+	<FileVersion>1.0.2</FileVersion>
+	<InformationalVersion>1.0.2</InformationalVersion>
 	<Description>
 		1.0.0 Initial version
 		1.0.1 Combined controllers to fix nginx routing
+		1.0.2 Fixed route for bids
 	</Description>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
