@@ -116,6 +116,27 @@ namespace AuctionService.Controllers
         }
 
         /// <summary>
+        /// Get all bids for specific auction
+        /// </summary>
+        /// <param name="auctionId"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("bids/{auctionId}")]
+        public IActionResult GetAllBidsForAuction(Guid auctionId)
+        {
+            IEnumerable<BiddingDTO> bids = _biddingService.GetAllBidsForAuction(auctionId);
+
+            if (!bids.Any())
+            {
+                return NotFound();
+            }
+
+            _logger.LogInformation($"Retrieved {bids.Count()} bids for Auction Id: {auctionId}");
+
+            return Ok(bids);
+        }
+
+        /// <summary>
         /// Delete an auction by ID
         /// </summary>
         /// <param name="id"></param>
@@ -135,7 +156,28 @@ namespace AuctionService.Controllers
 
             return Ok("Auction deleted successfully");
         }
-        
+
+        /// <summary>
+        /// Get highest-bid by auctionId
+        /// </summary>
+        /// <param name="auctionId"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("highestBid/{auctionId}")] //Highest bid for auctionId
+        public IActionResult GetHighestBidForAuction(Guid auctionId)
+        {
+            BiddingDTO highestBid = _biddingService.GetHighestBidForAuction(auctionId);
+
+            if (highestBid == null)
+            {
+                return NotFound(); // Return 404 if no bids are found for the specified auctionId
+            }
+
+            _logger.LogInformation($"{highestBid.BidId}, {highestBid.Price} - Highest Bid for Auction {auctionId} Retrived ");
+
+            return Ok(highestBid);
+        }
+
         /// <summary>
         /// Get auctions by category
         /// </summary>
@@ -203,48 +245,6 @@ namespace AuctionService.Controllers
 
             return CreatedAtAction(nameof(GetBid), new { id = bidding.BidId }, bidding);
 
-        }
-
-        /// <summary>
-        /// Get highest-bid by auctionId
-        /// </summary>
-        /// <param name="auctionId"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpGet("highestBid/{auctionId}")] //Highest bid for auctionId
-        public IActionResult GetHighestBidForAuction(Guid auctionId)
-        {
-            BiddingDTO highestBid = _biddingService.GetHighestBidForAuction(auctionId);
-
-            if (highestBid == null)
-            {
-                return NotFound(); // Return 404 if no bids are found for the specified auctionId
-            }
-
-            _logger.LogInformation($"{highestBid.BidId}, {highestBid.Price} - Highest Bid for Auction {auctionId} Retrived ");
-
-            return Ok(highestBid);
-        }
-
-        /// <summary>
-        /// Get all bids for specific auction
-        /// </summary>
-        /// <param name="auctionId"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpGet("bidding/{auctionId}")]
-        public IActionResult GetAllBidsForAuction(Guid auctionId)
-        {
-            IEnumerable<BiddingDTO> bids = _biddingService.GetAllBidsForAuction(auctionId);
-
-            if (!bids.Any())
-            {
-                return NotFound();
-            }
-
-            _logger.LogInformation($"Retrieved {bids.Count()} bids for Auction Id: {auctionId}");
-
-            return Ok(bids);
         }
 
         private Guid GenerateUniqueId()
