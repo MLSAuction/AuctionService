@@ -14,6 +14,7 @@ namespace AuctionTests
     public class AuctionControllerTests
     {
         private Mock<IAuctionRepository> _auctionRepositoryMock;
+        private Mock<IBiddingRepository> _biddingRepositoryMock;
         private AuctionController _auctionController;
 
         [SetUp]
@@ -21,11 +22,12 @@ namespace AuctionTests
         {
             // Vi opretter en Moq mock for IAuctionRepository
             _auctionRepositoryMock = new Mock<IAuctionRepository>();
+            _biddingRepositoryMock = new Mock<IBiddingRepository>();
             var loggerMock = new Mock<ILogger<AuctionController>>();
             var configurationMock = new Mock<IConfiguration>();
 
             // Initialiser AuctionController med de mockede dependencies.
-            _auctionController = new AuctionController(loggerMock.Object, configurationMock.Object, _auctionRepositoryMock.Object);
+            _auctionController = new AuctionController(loggerMock.Object, configurationMock.Object, _auctionRepositoryMock.Object, _biddingRepositoryMock.Object);
         }
 
         [Test]

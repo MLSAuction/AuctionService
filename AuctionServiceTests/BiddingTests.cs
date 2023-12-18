@@ -13,17 +13,19 @@ namespace BiddingTests
     [TestFixture]
     public class BiddingControllerTests
     {
+        private Mock<IAuctionRepository> _auctionRepositoryMock;
         private Mock<IBiddingRepository> _biddingRepositoryMock;
-        private BiddingController _biddingController;
+        private AuctionController _biddingController;
 
         [SetUp]
         public void Setup()
         {
+            _auctionRepositoryMock = new Mock<IAuctionRepository>();
             _biddingRepositoryMock = new Mock<IBiddingRepository>();
-            var loggerMock = new Mock<ILogger<BiddingController>>();
+            var loggerMock = new Mock<ILogger<AuctionController>>();
             var configurationMock = new Mock<IConfiguration>();
 
-            _biddingController = new BiddingController(loggerMock.Object, configurationMock.Object, _biddingRepositoryMock.Object);
+            _biddingController = new AuctionController(loggerMock.Object, configurationMock.Object, _auctionRepositoryMock.Object, _biddingRepositoryMock.Object);
         }
 
         [Test]
